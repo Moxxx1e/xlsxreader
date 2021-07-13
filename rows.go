@@ -57,13 +57,13 @@ func (c Cell) ColumnIndex() int {
 func (x *XlsxFile) getCellValue(r rawCell) (string, error) {
 	if r.Type == "inlineStr" {
 		if r.InlineString == nil {
-			return "", fmt.Errorf("Cell had type of InlineString, but the InlineString attribute was missing")
+			return "", nil
 		}
 		return *r.InlineString, nil
 	}
 
 	if r.Value == nil {
-		return "", fmt.Errorf("Unable to get cell value for cell %s - no value element found", r.Reference)
+		return "", nil
 	}
 
 	if r.Type == "s" {
@@ -185,10 +185,10 @@ func (x *XlsxFile) parseRow(decoder *xml.Decoder, startElement *xml.StartElement
 func (x *XlsxFile) parseRawCells(rawCells []rawCell, index int) ([]Cell, error) {
 	cells := []Cell{}
 	for _, rawCell := range rawCells {
-		if rawCell.Value == nil && rawCell.InlineString == nil {
-			// This cell is empty, so ignore it
-			continue
-		}
+		//if rawCell.Value == nil && rawCell.InlineString == nil {
+		//	// This cell is empty, so ignore it
+		//	continue
+		//}
 		column := strings.Map(removeNonAlpha, rawCell.Reference)
 		val, err := x.getCellValue(rawCell)
 		if err != nil {
