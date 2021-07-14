@@ -59,6 +59,7 @@ func (x *XlsxFile) getCellValue(r rawCell) (string, error) {
 		if r.InlineString == nil {
 			return "", nil
 		}
+
 		return *r.InlineString, nil
 	}
 
